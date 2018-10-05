@@ -31,6 +31,7 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get install ${APT_OPTS} \
     xz-utils \
     python-pip \
+    python-psutil \
     unzip \
     $xvfbDeps \
     google-chrome-stable=${CHROME_VERSION} \
@@ -65,4 +66,4 @@ COPY files/browsertime.py /opt/monroe/
 COPY files/browsertime-dbg.py /opt/monroe/
 COPY files/start.sh /opt/monroe/start.sh
 
-ENTRYPOINT ["dumb-init", "--", "/usr/bin/bash", "/opt/monroe/start.sh"]
+ENTRYPOINT ["dumb-init", "--", "/bin/bash", "/opt/monroe/start.sh"]
