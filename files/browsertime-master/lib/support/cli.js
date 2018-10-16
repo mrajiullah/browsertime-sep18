@@ -47,6 +47,10 @@ function validateInput(argv) {
     return 'You must pass --connectivity.profile "custom" for custom connectivity configs to take effect.';
   }
 
+  if (argv.injectJs && argv.browser === 'chrome') {
+    return 'Injecting JavaScript is only supported in Firefox at the moment.';
+  }
+
   if (Array.isArray(argv.iterations)) {
     return 'Ooops you passed number of iterations twice, remove one of them and try again.';
   }
@@ -276,6 +280,15 @@ module.exports.parseCommandLine = function parseCommandLine() {
       describe:
         'Collect Visual Metrics like First Visual Change, SpeedIndex, Perceptual Speed Index and Last Visual Change. Requires FFMpeg and Python dependencies'
     })
+    .option('visuaElements', {
+      type: 'boolean',
+      describe:
+        'Collect Visual Metrics from elements. Works only with --visualMetrics turned on. By default you will get visual metrics from the largest image within the view port and the largest h1. You can also configure to pickup your own defined elements with --scriptInput.visualElements'
+    })
+    .option('scriptInput.visualElements', {
+      describe:
+        'Include specific elements in visual elements. Give the element a name and select it with document.body.querySelector. Use like this: --scriptInput.visualElements name:domSelector see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors. Add multiple instances to measure multiple elements. Visual Metrics will use these elements and calculate when they are visible and fully rendered.'
+    })
     .option('browser', {
       alias: 'b',
       default: 'chrome',
@@ -409,6 +422,10 @@ module.exports.parseCommandLine = function parseCommandLine() {
     .option('cookie', {
       describe:
         'Cookie that will be added to the request. Add multiple instances to add multiple request cookies. Use the following format cookieName=cookieValue'
+    })
+    .option('injectJs', {
+      describe:
+        'Inject JavaScript into the current page (only Firefox at the moment) at document_start. More info: https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/contentScripts'
     })
     .option('block', {
       describe:

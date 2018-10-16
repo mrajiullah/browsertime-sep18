@@ -140,8 +140,10 @@ class SeleniumRunner {
       // watch Jake Archibald on ‘The Event Loop’ https://vimeo.com/254947206
       // TODO do we only want to do this when we record a video?
       const navigate = `(function() {
-          document.body.innerHTML = '';
-          document.body.style.background = '#FFFFFF';
+          const orange = document.getElementById('browsertime-orange');
+          if (orange) {
+            orange.style.backgroundColor = '#FFFFFF';
+          }
           window.requestAnimationFrame(function(){
             window.requestAnimationFrame(function(){
               window.location="${url}";
@@ -351,7 +353,11 @@ class SeleniumRunner {
       }
     } else {
       const source = 'return ' + script;
-      return this.runScript(source, name);
+      if (this.options.scriptInput && this.options.scriptInput[name]) {
+        return this.runScript(source, name, this.options.scriptInput[name]);
+      } else {
+        return this.runScript(source, name);
+      }
     }
   }
 
@@ -386,14 +392,18 @@ class SeleniumRunner {
     const scriptNames = Object.keys(category);
     const results = {};
     for (let scriptName of scriptNames) {
-      const script = category[scriptName];
-      const result = await this.runScriptFromCategory(
-        script,
-        isAsync,
-        scriptName
-      );
-      if (!(result === null || result === undefined)) {
-        results[scriptName] = result;
+      try {
+        const script = category[scriptName];
+        const result = await this.runScriptFromCategory(
+          script,
+          isAsync,
+          scriptName
+        );
+        if (!(result === null || result === undefined)) {
+          results[scriptName] = result;
+        }
+      } catch (e) {
+        log.error('Could not run script ' + scriptName + ':' + e.message);
       }
     }
     return results;

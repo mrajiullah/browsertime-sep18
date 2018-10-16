@@ -118,18 +118,22 @@ module.exports = {
     // We add the timings both as a hidden field and add
     // in pageTimings so we can easily show them in PerfCascade
     if (visualMetricsData) {
-      harPageTimings._firstVisualChange = visualMetricsData.FirstVisualChange;
-      harPageTimings._lastVisualChange = visualMetricsData.LastVisualChange;
-      harPageTimings._visualComplete85 = visualMetricsData.VisualComplete85;
-      harPageTimings._visualComplete95 = visualMetricsData.VisualComplete95;
-      harPageTimings._visualComplete99 = visualMetricsData.VisualComplete99;
-      _visualMetrics.FirstVisualChange = visualMetricsData.FirstVisualChange;
-      _visualMetrics.SpeedIndex = visualMetricsData.SpeedIndex;
-      _visualMetrics.VisualComplete85 = visualMetricsData.VisualComplete85;
-      _visualMetrics.VisualComplete95 = visualMetricsData.VisualComplete95;
-      _visualMetrics.VisualComplete99 = visualMetricsData.VisualComplete99;
-      _visualMetrics.LastVisualChange = visualMetricsData.LastVisualChange;
-      _visualMetrics.VisualReadiness = visualMetricsData.VisualReadiness;
+      const DO_NOT_INCLUDE_IN_HAR_TIMINGS = [
+        'VisualReadiness',
+        'SpeedIndex',
+        'PerceptualSpeedIndex',
+        'VisualProgress'
+      ];
+
+      for (let key of Object.keys(visualMetricsData)) {
+        if (DO_NOT_INCLUDE_IN_HAR_TIMINGS.indexOf(key) === -1) {
+          harPageTimings['_' + key.charAt(0).toLowerCase() + key.slice(1)] =
+            visualMetricsData[key];
+          _visualMetrics[key] = visualMetricsData[key];
+        } else if (key !== 'VisualProgress') {
+          _visualMetrics[key] = visualMetricsData[key];
+        }
+      }
 
       // Make the visual progress structure more JSON
       _visualMetrics.VisualProgress = jsonifyVisualProgress(

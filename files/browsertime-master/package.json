@@ -1,11 +1,11 @@
 {
   "description": "Browsertime",
-  "version": "3.3.1",
+  "version": "3.7.0",
   "bin": "./bin/browsertime.js",
   "dependencies": {
     "@sitespeed.io/throttle": "0.4.3",
     "adbkit": "2.11.0",
-    "alto-saxophone": "2.41.0",
+    "alto-saxophone": "2.42.0",
     "chrome-har": "0.4.1",
     "chrome-trace": "0.1.0",
     "execa": "0.10.0",
@@ -24,7 +24,7 @@
     "moment": "2.22.1",
     "selenium-webdriver": "3.6.0",
     "sharp": "0.20.2",
-    "soprano-saxophone": "0.21.0",
+    "soprano-saxophone": "0.23.0",
     "valid-url": "1.0.9",
     "xvfb": "0.2.3",
     "yargs": "11.0.0"

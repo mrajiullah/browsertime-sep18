@@ -4,10 +4,10 @@ MAINTAINER jonas.karlsson@kau.se
 
 ENV APT_OPTS -y --allow-downgrades --allow-remove-essential --allow-change-held-packages --no-install-recommends --no-install-suggests --allow-unauthenticated
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 8.11.1
+ENV NODE_VERSION 8.12.0
 ENV LC_ALL C
 ENV DEBCONF_NONINTERACTIVE_SEEN true
-ENV FIREFOX_VERSION 61.0
+ENV FIREFOX_VERSION 62.0
 ENV CHROME_VERSION 69.*
 ENV FONTS fonts-ipafont-gothic fonts-ipafont-mincho ttf-wqy-microhei fonts-wqy-microhei fonts-tlwg-loma fonts-tlwg-loma-otf fonts-gargi
 # firefox-locale-hi a font that does not exist in debian

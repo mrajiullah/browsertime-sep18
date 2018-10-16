@@ -1,8 +1,53 @@
 # Browsertime changelog
+
 ## UNRELEASED
+### Fixed
+* Upgraded to Geckodriver 0.23.0
+
+## 3.7.0 - 2018-10-02
+### Tech
+* Cleanup of the Visual Elements script [#641](https://github.com/sitespeedio/browsertime/pull/641).
+
+### Added
+* Automatically add all visual elements to the HAR timings (so you can see them in PerfCascade) [#642](https://github.com/sitespeedio/browsertime/pull/642).
+
+* You can run your own JavaScript in Firefox that will be executed on document_start. Use --injectJs [#643](https://github.com/sitespeedio/browsertime/pull/643).
+
+### Fixed 
+* Upgrading to a new version of the Browsertime extension that sets a request header for basic auth instead of using internal WebExtension code [#643](https://github.com/sitespeedio/browsertime/pull/643). See [Bug #2151](https://github.com/sitespeedio/sitespeed.io/issues/2151).
+
+
+## 3.6.0 - 2018-09-24
+### Added
+* Turned on the Firefox only metric: timeToDomContentFlushed [#637](https://github.com/sitespeedio/browsertime/pull/637).
+* Pick up stddev for all metrics [#638](https://github.com/sitespeedio/browsertime/pull/638).
+
+### Fixed
+* If a visualElement is missing, we log the error instead of throwing it [#639](https://github.com/sitespeedio/browsertime/pull/639).
+
+## 3.5.0 - 2018-09-15
+
+### Added
+* We support timings for visual elements (by adding ```--visuaElements```). Browsertime picks up the largest image and the largest H1. You can also configure your own elements ```--scriptInput.visualElements```. First let give creds to the ones that deserves it: As far as we know [Sergey Chernyshev](https://twitter.com/sergeyche) was the first one that introduced the idea of measuring individual elements in his talk [Using Heat Maps to improve Web Performance Metrics](https://www.youtube.com/watch?v=t6l9U5bC8jA). A couple of years later this was implemented by the people behind [SpeedCurve](https://speedcurve.com/), that later on contributed back the implementation to WebPageTest (calling it "hero"-elements). [Patrick Meenan](https://twitter.com/patmeenan) (the creator of WebPageTest) moved on the implementation to [Visual Metrics](https://github.com/WPO-Foundation/visualmetrics) that Browsertime uses to pickup visual metrics from the video. We tuned the implementation a little and now it is ready to release.
+
+* We also added a new feature: If you run your own custom script you can now feed it with different input by using ```--scriptInput.*```. Say you have a script named myScript you can pass on data to it with ```--scriptInput.myScript 'super-secret-string' ```. More about this in the documentation the coming weeks.
+
+* Upgraded to Chromedriver 2.42.0
+
+### Fixed
+* In some cases Chrome returns an empty HAR and that made us throw an error. This make sure the HAR has a page before we use it [#630](https://github.com/sitespeedio/browsertime/pull/630).
+
+## 3.4.1 - 2018-09-13
+### Fixed
+* Tech: We unified how we change the background color from orange to white when we record the video (to be able to know when the navigation start) [PR 634](https://github.com/sitespeedio/browsertime/pull/634).
+
+## 3.4.0 - 2018-09-13
 ### Added 
-* Upgraded to Chromedriver 2.41.0
-* Upgraded to Chrome 69 in the Docker container
+* Upgraded to Chromedriver 2.41.0.
+* Upgraded to Chrome 69 and Firefox 62 in the Docker container.
+
+### Fixed
+* There been several [reports on bugs](https://github.com/sitespeedio/sitespeed.io/issues/1949) when using a preScript to login and then measure a page. The problem has been how we find the first frame + a bug that didn't make the video with orange frames between different pages. Thats been fixed now in [#633](https://github.com/sitespeedio/browsertime/pull/633).
 
 ## 3.3.1 - 2018-08-09
 ### Fixed
